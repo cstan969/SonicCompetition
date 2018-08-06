@@ -1,0 +1,20 @@
+FROM openai/retro-agent:tensorflow
+
+# Needed for OpenCV.
+RUN apt-get update && \
+    apt-get install -y libgtk2.0-dev && \
+    rm -rf /var/lib/apt/lists/*
+
+# Baselines has some unneeded and cumbersome dependencies,
+# so we manually fetch the deps we need.
+RUN . ~/venv/bin/activate && \
+    pip install scipy tqdm joblib zmq dill progressbar2 cloudpickle opencv-python && \
+    pip install --no-deps git+https://github.com/cstan969/baselines.git && \
+    pip install https://storage.googleapis.com/gym-retro/builds/gym_retro-0.5.2-cp35-cp35m-linux_x86_64.whl
+
+ADD ppo2_agent.py ./agent.py
+ADD sonic_util_local.py .
+ADD ppo2_v2.py .
+ADD 01236 .
+
+CMD ["python", "-u", "/root/compo/agent.py"]
