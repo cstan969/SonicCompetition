@@ -1,1 +1,3 @@
 # SonicCompetition
+
+This is not a full project.  This is some of the code that I alterred / wrote based on the codes provided by Baselines / Retro / Gym.  The initial environment object in the environment wrapper provided for the competition could not be reset so that a new Sonic the Hedgehog zone could be utilized.  I removed the class so that I could continuously reinitialize the environment as new zones were required.  In this way the NN would be run on so many environments sequentially.  Actions / observations are made sequentially, however, the NN does not learn after each environment change.  Rather the learning procedure is applied after the NN is run on N number of zones (Joint PPO).  
